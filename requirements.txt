@@ -2,3 +2,4 @@ flask
 gunicorn
 flask-sqlalchemy
 psycopg2
+imgurpython

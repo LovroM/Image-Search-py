@@ -1,6 +1,6 @@
 import re
 
-from flask import Flask, render_template, jsonify, redirect
+from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -13,16 +13,27 @@ db = SQLAlchemy(app)
 class ImageSearch(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
-    url = db.Column(db.String, nullable = False)
+    term = db.Column(db.String, nullable = False)
+    when = db.Column(db.Integer, nullable = False)
     
     def __init__(self, url):
-        self.url = url
+        self.temr = term
+        self.when = when
     
     
 # A simple home route that renders index.html
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/api/imagesearch/<path:search_query>")
+def img_search(search_query):
+    pass
+    
+@app.route("/api/latest/imagesearch")
+def history():
+    pass
     
 
 # Runs server.
