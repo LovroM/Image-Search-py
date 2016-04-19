@@ -1,7 +1,10 @@
 import re
+import time
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+
+from imgur_data import test_test
 
 app = Flask(__name__)
 
@@ -12,13 +15,12 @@ db = SQLAlchemy(app)
 
 class ImageSearch(db.Model):
     
-    id = db.Column(db.Integer, primary_key = True)
-    term = db.Column(db.String, nullable = False)
-    when = db.Column(db.Integer, nullable = False)
+    id = db.Column(db.Integer, primary_key=True)
+    term = db.Column(db.String, nullable=False)
+    when = db.Column(db.DateTime, server_default=db.func.now())
     
-    def __init__(self, url):
-        self.temr = term
-        self.when = when
+    def __init__(self, term):
+        self.term = term
     
     
 # A simple home route that renders index.html
@@ -29,11 +31,28 @@ def index():
 
 @app.route("/api/imagesearch/<path:search_query>")
 def img_search(search_query):
-    pass
     
+    ## Save the "term" and "when"
+    term = search_query
+    when = int(time.time())
+    
+    ## call a func thar returns (imgur data?)
+    ## {"url":"","snippet":"","thumbnail":"","context":"" }
+    
+    test = test_test(12)
+    return term + " " + str(test)
+
+
+# Show search history with 'offset' amount of queries (default = 10).    
 @app.route("/api/latest/imagesearch")
-def history():
-    pass
+def history(offset=10):
+    
+    offset = request.args.get("offset", offset)
+    
+    ###Database search for history with offset queries
+    
+    
+    return str(offset)
     
 
 # Runs server.
